@@ -1,0 +1,15 @@
+spring:
+  profiles:
+    active: native
+  application:
+    name: config-server
+  cloud:
+    config:
+      server:
+        native:
+          searchLocations: classpath:/configurations
+          # class path is the default location for the configuration files ( resources folder)
+
+server:
+  port: 8888
+
