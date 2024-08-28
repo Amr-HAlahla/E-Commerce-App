@@ -1,10 +1,11 @@
 services:
   postgres:
     container_name: ms_pg_sql
-    image: postgres
+    image: postgres:latest
     environment:
       POSTGRES_USER: amr
       POSTGRES_PASSWORD: amr
+      POSTGRES_DB: postgres
       PGDATA: /var/lib/postgresql/data
     volumes:
       - postgres:/var/lib/postgresql/data
@@ -81,7 +82,7 @@ services:
       KAFKA_LISTENERS_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
     networks:
-        - microservices-net
+      - microservices-net
 
   mail-dev:
     container_name: ms_mail_dev
