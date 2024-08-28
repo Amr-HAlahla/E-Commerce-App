@@ -8,6 +8,8 @@ import org.amr.ecommerce.kafka.OrderConfirmation;
 import org.amr.ecommerce.kafka.OrderProducer;
 import org.amr.ecommerce.orderline.OrderLineRequest;
 import org.amr.ecommerce.orderline.OrderLineService;
+import org.amr.ecommerce.payment.PaymentClient;
+import org.amr.ecommerce.payment.PaymentRequest;
 import org.amr.ecommerce.product.ProductClient;
 import org.amr.ecommerce.product.PurchaseRequest;
 import org.springframework.stereotype.Service;
@@ -24,6 +26,7 @@ public class OrderService {
     private final OrderMapper mapper;
     private final OrderLineService orderLineService;
     private final OrderProducer orderProducer;
+    private final PaymentClient paymentClient;
 
     public Integer createOrder(OrderRequest request) {
         // first check the customer --> OpenFeign
@@ -48,8 +51,15 @@ public class OrderService {
                     )
             );
         }
-        // todo start the payment process
-
+        // start the payment process
+        var paymentRequest = new PaymentRequest(
+                request.amount(),
+                request.paymentMethod(),
+                order.getId(),
+                order.getReference(),
+                customer
+        );
+        paymentClient.requestOrderPayment(paymentRequest);
         // send order confirmation => notification-service (kafka)
         orderProducer.sendOrderConfirmation(
                 new OrderConfirmation(
