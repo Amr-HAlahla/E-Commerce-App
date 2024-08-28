@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/order
+    url: jdbc:postgresql://localhost:5432/payment
     username: amr
     password: amr
     driver-class-name: org.postgresql.Driver
@@ -15,11 +15,4 @@ spring:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
       properties:
-        spring.Json.type.mapping: orderConfirmation:org.amr.ecommerce.kafka.OrderConfirmation
-server:
-  port: 8070
-application:
-  config:
-    customer-url: http://localhost:8222/api/v1/customers
-    product-url: http://localhost:8222/api/v1/products
-    payment-url: http://localhost:8222/api/v1/payments
+        spring.Json.type.mapping: paymentConfirmation:org.amr.ecommerce.notification.PaymentNotificationRequest
