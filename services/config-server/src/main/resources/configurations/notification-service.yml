@@ -7,6 +7,7 @@ spring:
       port: 27017
       database: notification
       authentication-database: admin
+
   kafka:
     consumer:
       bootstrap-servers: localhost:9092
@@ -16,7 +17,10 @@ spring:
       value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
       properties:
         spring.json.trusted.packages: '*'
-        spring.json.type.mapping: orderConfirmation:com.amr.ecommerce.kafka.order.OrderConfirmation, paymentConfirmation:com.amr.ecommerce.kafka.payment.PaymentConfirmation
+        spring.json.type.mapping:
+          orderConfirmation: com.amr.ecommerce.kafka.order.OrderConfirmation
+          paymentConfirmation: com.amr.ecommerce.kafka.payment.PaymentConfirmation
+
   mail:
     host: localhost
     port: 1025
@@ -25,14 +29,12 @@ spring:
     properties:
       mail:
         smtp:
-          trust: '*'
-        auth: true
-        starttls:
-          enable: true
+          auth: true
+          starttls.enable: true
+          trust: localhost
         connection-timeout: 5000
         timeout: 3000
         write-timeout: 5000
 
 server:
   port: 8040
-
